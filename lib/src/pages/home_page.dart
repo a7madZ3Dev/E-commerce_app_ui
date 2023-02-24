@@ -1,16 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce_app/src/model/data.dart';
-import 'package:flutter_ecommerce_app/src/themes/light_color.dart';
-import 'package:flutter_ecommerce_app/src/themes/theme.dart';
-import 'package:flutter_ecommerce_app/src/widgets/product_card.dart';
-import 'package:flutter_ecommerce_app/src/widgets/product_icon.dart';
-import 'package:flutter_ecommerce_app/src/widgets/extentions.dart';
+
+import '../../src/model/data.dart';
+import '../widgets/extensions.dart';
+import '../../src/themes/theme.dart';
+import '../../src/themes/light_color.dart';
+import '../../src/widgets/product_card.dart';
+import '../../src/widgets/product_icon.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key? key, this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -19,21 +20,22 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Widget _icon(IconData icon, {Color color = LightColor.iconColor}) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(13)),
-          color: Theme.of(context).backgroundColor,
-          boxShadow: AppTheme.shadow),
+        borderRadius: const BorderRadius.all(Radius.circular(13)),
+        color: Theme.of(context).backgroundColor,
+        // boxShadow: AppTheme.shadow,
+      ),
       child: Icon(
         icon,
         color: color,
       ),
-    ).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(13)));
+    ).ripple(() {}, borderRadius: const BorderRadius.all(Radius.circular(13)));
   }
 
   Widget _categoryWidget() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       width: AppTheme.fullWidth(context),
       height: 80,
       child: ListView(
@@ -44,9 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 model: category,
                 onSelected: (model) {
                   setState(() {
-                    AppData.categoryList.forEach((item) {
+                    for (var item in AppData.categoryList) {
                       item.isSelected = false;
-                    });
+                    }
                     model.isSelected = true;
                   });
                 },
@@ -59,16 +61,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _productWidget() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 15),
       width: AppTheme.fullWidth(context),
-      height: AppTheme.fullWidth(context) * .7,
+      height: AppTheme.fullWidth(context) * .85,
       child: GridView(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1,
             childAspectRatio: 4 / 3,
             mainAxisSpacing: 30,
             crossAxisSpacing: 20),
-        padding: EdgeInsets.only(left: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20),
         scrollDirection: Axis.horizontal,
         children: AppData.productList
             .map(
@@ -76,9 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 product: product,
                 onSelected: (model) {
                   setState(() {
-                    AppData.productList.forEach((item) {
+                    for (var item in AppData.productList) {
                       item.isSelected = false;
-                    });
+                    }
                     model.isSelected = true;
                   });
                 },
@@ -91,28 +93,28 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _search() {
     return Container(
-      margin: AppTheme.padding,
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       child: Row(
         children: <Widget>[
           Expanded(
             child: Container(
-              height: 40,
+              height: 50,
               alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: LightColor.lightGrey.withAlpha(100),
+              decoration: const BoxDecoration(
+                  color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: TextField(
+              child: const TextField(
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "Search Products",
                     hintStyle: TextStyle(fontSize: 12),
-                    contentPadding:
-                        EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 5),
+                    contentPadding: EdgeInsets.only(
+                        left: 10, right: 10, bottom: 0, top: 15),
                     prefixIcon: Icon(Icons.search, color: Colors.black54)),
               ),
             ),
           ),
-          SizedBox(width: 20),
+          const SizedBox(width: 20),
           _icon(Icons.filter_list, color: Colors.black54)
         ],
       ),
@@ -121,10 +123,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height - 210,
       child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         dragStartBehavior: DragStartBehavior.down,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

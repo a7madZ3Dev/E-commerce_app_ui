@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_ecommerce_app/src/model/product.dart';
-import 'package:flutter_ecommerce_app/src/themes/light_color.dart';
-import 'package:flutter_ecommerce_app/src/widgets/title_text.dart';
-import 'package:flutter_ecommerce_app/src/widgets/extentions.dart';
+import './extensions.dart';
+import '../../src/model/product.dart';
+import '../../src/themes/light_color.dart';
+import '../../src/widgets/title_text.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
   final ValueChanged<Product> onSelected;
-  ProductCard({Key key, this.product, this.onSelected}) : super(key: key);
+  const ProductCard({Key? key, required this.product, required this.onSelected})
+      : super(key: key);
 
 //   @override
 //   _ProductCardState createState() => _ProductCardState();
@@ -25,16 +26,17 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: LightColor.background,
         borderRadius: BorderRadius.all(Radius.circular(20)),
         boxShadow: <BoxShadow>[
-          BoxShadow(color: Color(0xfff8f8f8), blurRadius: 15, spreadRadius: 10),
+          BoxShadow(
+              color: Colors.transparent, blurRadius: 15, spreadRadius: 10),
         ],
       ),
       margin: EdgeInsets.symmetric(vertical: !product.isSelected ? 20 : 0),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -51,7 +53,7 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 SizedBox(height: product.isSelected ? 15 : 0),
@@ -60,26 +62,44 @@ class ProductCard extends StatelessWidget {
                     alignment: Alignment.center,
                     children: <Widget>[
                       CircleAvatar(
-                        radius: 40,
-                        backgroundColor: LightColor.orange.withAlpha(40),
+                        radius: 60,
+                        backgroundColor: LightColor.lightBlue.withAlpha(40),
                       ),
-                      Image.asset(product.image)
+                      SizedBox(
+                        height: 300,
+                        width: 300,
+                        child: Image.asset(
+                          product.image,
+                        ),
+                      )
                     ],
                   ),
                 ),
                 // SizedBox(height: 5),
-                TitleText(
-                  text: product.name,
-                  fontSize: product.isSelected ? 16 : 14,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Center(
+                    child: TitleText(
+                      text: product.name,
+                      fontSize: product.isSelected ? 20 : 18,
+                    ),
+                  ),
                 ),
-                TitleText(
-                  text: product.category,
-                  fontSize: product.isSelected ? 14 : 12,
-                  color: LightColor.orange,
+                Center(
+                  child: TitleText(
+                    text: product.category,
+                    fontSize: product.isSelected ? 16 : 14,
+                    color: LightColor.orange,
+                  ),
                 ),
-                TitleText(
-                  text: product.price.toString(),
-                  fontSize: product.isSelected ? 18 : 16,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Center(
+                    child: TitleText(
+                      text: product.price.toString(),
+                      fontSize: product.isSelected ? 20 : 18,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -88,7 +108,7 @@ class ProductCard extends StatelessWidget {
       ).ripple(() {
         Navigator.of(context).pushNamed('/detail');
         onSelected(product);
-      }, borderRadius: BorderRadius.all(Radius.circular(20))),
+      }, borderRadius: const BorderRadius.all(Radius.circular(20))),
     );
   }
 }

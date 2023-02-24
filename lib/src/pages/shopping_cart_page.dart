@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce_app/src/model/data.dart';
-import 'package:flutter_ecommerce_app/src/model/product.dart';
-import 'package:flutter_ecommerce_app/src/themes/light_color.dart';
-import 'package:flutter_ecommerce_app/src/themes/theme.dart';
-import 'package:flutter_ecommerce_app/src/widgets/title_text.dart';
+
+import '../../src/model/data.dart';
+import '../../src/themes/theme.dart';
+import '../../src/model/product.dart';
+import '../../src/themes/light_color.dart';
+import '../../src/widgets/title_text.dart';
 
 class ShoppingCartPage extends StatelessWidget {
-  const ShoppingCartPage({Key key}) : super(key: key);
+  const ShoppingCartPage({Key? key}) : super(key: key);
 
   Widget _cartItems() {
     return Column(children: AppData.cartList.map((x) => _item(x)).toList());
   }
 
   Widget _item(Product model) {
-    return Container(
+    return SizedBox(
       height: 80,
       child: Row(
         children: <Widget>[
@@ -23,7 +24,7 @@ class ShoppingCartPage extends StatelessWidget {
               children: <Widget>[
                 Align(
                   alignment: Alignment.bottomLeft,
-                  child: Container(
+                  child: SizedBox(
                     height: 70,
                     width: 70,
                     child: Stack(
@@ -32,7 +33,7 @@ class ShoppingCartPage extends StatelessWidget {
                           alignment: Alignment.bottomLeft,
                           child: Container(
                             decoration: BoxDecoration(
-                                color: LightColor.lightGrey,
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                         ),
@@ -57,9 +58,9 @@ class ShoppingCartPage extends StatelessWidget {
                   ),
                   subtitle: Row(
                     children: <Widget>[
-                      TitleText(
+                      const TitleText(
                         text: '\$ ',
-                        color: LightColor.red,
+                        color: LightColor.lightBlue,
                         fontSize: 12,
                       ),
                       TitleText(
@@ -73,7 +74,7 @@ class ShoppingCartPage extends StatelessWidget {
                     height: 35,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                        color: LightColor.lightGrey.withAlpha(150),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(10)),
                     child: TitleText(
                       text: 'x${model.id}',
@@ -91,7 +92,7 @@ class ShoppingCartPage extends StatelessWidget {
       children: <Widget>[
         TitleText(
           text: '${AppData.cartList.length} Items',
-          color: LightColor.grey,
+          color: Colors.black,
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
@@ -110,13 +111,13 @@ class ShoppingCartPage extends StatelessWidget {
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         ),
-        backgroundColor: MaterialStateProperty.all<Color>(LightColor.orange),
+        backgroundColor: MaterialStateProperty.all<Color>(LightColor.lightBlue),
       ),
       child: Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(vertical: 4),
         width: AppTheme.fullWidth(context) * .75,
-        child: TitleText(
+        child: const TitleText(
           text: 'Next',
           color: LightColor.background,
           fontWeight: FontWeight.w500,
@@ -127,9 +128,9 @@ class ShoppingCartPage extends StatelessWidget {
 
   double getPrice() {
     double price = 0;
-    AppData.cartList.forEach((x) {
+    for (var x in AppData.cartList) {
       price += x.price * x.id;
-    });
+    }
     return price;
   }
 
@@ -141,12 +142,13 @@ class ShoppingCartPage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _cartItems(),
-            Divider(
-              thickness: 1,
+            const Divider(
+              thickness: 2,
               height: 70,
+              color: Colors.white24,
             ),
             _price(),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             _submitButton(context),
           ],
         ),
